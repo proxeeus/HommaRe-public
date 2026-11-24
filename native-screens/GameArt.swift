@@ -187,7 +187,7 @@ struct GameImage: View {
         .task(id: ref) {
             guard let ref, !ref.isEmpty else { image = nil; return }
             let crop = crop, fallback = fallback
-            let loaded = await Task.detached(priority: .userInitiated) {
+            let loaded = await Task.detached(priority: .userInitiated) { () -> PlatformImage? in
                 GameArt.shared.image(ref, crop: crop) ?? fallback.flatMap { GameArt.shared.image($0, crop: crop) }
             }.value
             image = loaded
